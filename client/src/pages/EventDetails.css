@@ -1,0 +1,214 @@
+/* Page background + centering */
+
+.ed-page {
+  min-height: 100vh;
+  width:100vw;
+  background: #f3f4f6; /* light gray like the reference */
+  padding: 40px 0;
+}
+
+.ed-inner {
+  max-width: 80vw;
+  margin: 0 auto;
+  padding: 0 20px;
+  box-sizing: border-box;
+  font-family: system-ui, "Segoe UI", sans-serif;
+}
+
+/* Back link */
+
+.ed-back-link {
+  background: transparent;
+  border: none;
+  color: #4b5563;
+  font-size: 14px;
+  cursor: pointer;
+  margin-bottom: 16px;
+  padding: 6px 0;
+}
+
+.ed-back-link:hover {
+  color: #111827;
+}
+
+/* Hero card */
+
+.ed-hero-card {
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.12);
+  padding: 18px;
+  margin-bottom: 28px;
+}
+
+.ed-hero-image-wrapper {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  height: 40vh;
+}
+
+.ed-hero-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.ed-hero-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px 24px;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.6),
+    rgba(0, 0, 0, 0.05),
+    transparent
+  );
+  color: white;
+}
+
+.ed-hero-badge {
+  display: inline-block;
+  font-weight: bold;
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background:#6366f1;
+  margin-bottom: 10px;
+  width:fit-content;
+}
+
+.ed-hero-title {
+  font-size: 26px;
+  font-weight: 600;
+  margin: 0 0 6px 0;
+}
+
+.ed-hero-meta {
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  opacity: 0.95;
+}
+
+.ed-dot {
+  font-size: 18px;
+  line-height: 1;
+}
+
+/* 2-column layout */
+
+.ed-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  gap: 18px;
+}
+
+/* Left column cards */
+
+.ed-main-column {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Right column cards */
+
+.ed-side-column {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Generic card */
+
+.ed-card {
+  background: white;
+  border-radius: 18px;
+  padding: 18px 20px;
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.06);
+}
+
+.ed-empty-card {
+  text-align: center;
+}
+
+/* Titles & text */
+
+.ed-section-title {
+  color: black;
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0 0 8px 0;
+}
+
+.ed-subtitle {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0 0 6px 0;
+  color: #374151;
+}
+
+.ed-text {
+  font-size: 14px;
+  color: #4b5563;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.ed-text-small {
+  font-size: 13px;
+  color: #4b5563;
+  margin: 2px 0;
+}
+
+/* Tags */
+
+.ed-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.ed-tag-pill {
+  font-size: 12px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: #f3f4f6;
+  border: 1px solid #e5e7eb;
+  color: #374151;
+}
+
+/* Progress bar */
+
+.ed-progress {
+  margin-top: 8px;
+  width: 100%;
+  height: 8px;
+  border-radius: 999px;
+  background: #e5e7eb;
+  overflow: hidden;
+}
+
+.ed-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #8b5cf6, #6366f1);
+  border-radius: 999px;
+}
+
+/* Responsive */
+
+@media (max-width: 900px) {
+  .ed-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .ed-hero-image {
+    height: 100%;
+  }
+}

@@ -1,0 +1,110 @@
+.ce-page {
+  min-height: 100vh;
+  background: #f3f4f6;
+  padding: 40px 0;
+}
+
+.ce-wrapper {
+  max-width: 800px;
+  margin: 0 auto;
+  background: white;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  font-family: system-ui, sans-serif;
+}
+
+.ce-back {
+  background: none;
+  border: none;
+  font-size: 14px;
+  color: #374151;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.ce-title {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+.ce-subtitle {
+  color: #6b7280;
+  margin-bottom: 20px;
+}
+
+.ce-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.ce-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.ce-field label {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #374151;
+}
+
+.ce-field input,
+.ce-field textarea,
+.ce-field select {
+  padding: 10px 12px;
+  font-size: 14px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  outline: none;
+}
+
+.ce-field input:focus,
+.ce-field textarea:focus,
+.ce-field select:focus {
+  border-color: #8b5cf6;
+}
+
+.ce-row {
+  display: flex;
+  gap: 16px;
+}
+
+.ce-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.ce-submit {
+  flex: 1;
+  background: linear-gradient(90deg, #8b5cf6, #6366f1);
+  color: white;
+  padding: 12px 0;
+  font-size: 15px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.ce-cancel {
+  flex: 1;
+  background: #e5e7eb;
+  color: #374151;
+  padding: 12px 0;
+  font-size: 15px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.ce-submit:hover {
+  background: linear-gradient(90deg, #7c3aed, #4f46e5);
+}
+
+.ce-cancel:hover {
+  background: #d1d5db;
+}

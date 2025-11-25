@@ -1,55 +1,90 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
+import axios from "axios"
 import '../App.css'
 
 export default function Login() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [showPassword, setShowPassword] = useState(false)
   const navigate = useNavigate()
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    if(email && password){
-      localStorage.setItem("token", "dummy_token")
-      localStorage.setItem("role", "student") 
-      navigate("/student-dashboard") 
+    if(!email || !password){
+      alert("Please enter both email and password")
+      return
+    }
+
+    try {
+      const res = await axios.post("http://localhost:5000/auth/login", { email, password })
+      console.log("Server Response:", res.data)
+
+      if(res.data && res.data.success){
+        localStorage.setItem("token", res.data.token)
+        localStorage.setItem("role", res.data.role)
+        localStorage.setItem("userEmail", res.data.email)
+        if (res.data.role === "college-admin") {
+          navigate("/college-dashboard")
+        } else {
+          navigate("/student-dashboard")
+        }
+      } else {
+        alert(res.data.message || "Invalid email or password")
+      }
+    } catch (err) {
+      console.error("Login Error:", err.response || err)
+      alert(err.response?.data?.message || "Error connecting to server")
     }
   }
 
   return (
     <div className="login-container">
       <div className="login-card">
-        <h2 className="title">Login to CampusGrid</h2>
+        <h2 className="title">Login to CampusEventHub</h2>
         <form onSubmit={handleSubmit} className="login-form">
           <input
             type="email"
             placeholder="Email"
             className="input-field"
+            value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
-          <input
-            type="password"
-            placeholder="Password"
-            className="input-field"
-            onChange={(e) => setPassword(e.target.value)}
-          />
+          <div style={{ position: "relative", width: "100%" }}>
+            <input
+              type={showPassword ? "text" : "password"}
+              placeholder="Password"
+              className="input-field"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              style={{ paddingRight: "60px" }}
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(prev => !prev)}
+              aria-pressed={showPassword}
+              style={{
+                position: "absolute",
+                right: 10,
+                top: "50%",
+                transform: "translateY(-50%)",
+                background: "transparent",
+                border: "none",
+                cursor: "pointer",
+                fontSize: "13px",
+                color: "#999",
+                padding: 0
+              }}
+            >
+              {showPassword ? "Hide" : "Show"}
+            </button>
+          </div>
           <button type="submit" className="login-btn">Sign In</button>
         </form>
 
         <div className="links">
-          {/*
-          <button className="link-item" onClick={() => navigate("/forgot")}>
-            Forgot Password?
-          </button>
-          */}
           <button className="link-item" onClick={() => navigate("/signup")}>
-            New User ? Sign Up
-          </button>
-          <button className="link-item" onClick={() => navigate("/college-admin-login")}>
-            Login as College Admin
-          </button>
-          <button className="link-item" onClick={() => navigate("/super-admin-login")}>
-            Super Admin Login
+            Sign Up
           </button>
         </div>
       </div>
