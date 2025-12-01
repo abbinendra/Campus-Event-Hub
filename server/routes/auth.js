@@ -1,7 +1,7 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
-const bcrypt = require("bcryptjs");
-const User = require("../models/User");
+import bcrypt from "bcryptjs";
+import User from "../models/User.js";
 
 router.post("/signup", async (req, res) => {
   try {
@@ -30,7 +30,6 @@ router.post("/signup", async (req, res) => {
 // Login route
 router.post("/login", async (req, res) => {
   try {
-    // normalize and trim incoming input
     const emailInput = (req.body.email || "").toString().trim().toLowerCase();
     const passwordInput = (req.body.password || "").toString();
 
@@ -41,12 +40,14 @@ router.post("/login", async (req, res) => {
     }
 
     const user = await User.findOne({ email: emailInput });
-    console.log("User role from DB:", user.role);
+
     if (!user) {
       console.log("LOGIN FAIL - user not found for:", emailInput);
       return res.json({ success: false, message: "User not found" });
     }
 
+    // NOW it's safe to log these
+    console.log("User role from DB:", user.role);
     console.log("Stored hash length:", (user.password || "").length);
 
     const isMatch = await bcrypt.compare(passwordInput, user.password);
@@ -56,17 +57,23 @@ router.post("/login", async (req, res) => {
       return res.json({ success: false, message: "Incorrect password" });
     }
 
-    console.log("Sending response:", { role: user.role });
+    console.log("Sending response with user object");
     res.json({
       success: true,
       token: "dummy_token",
       role: user.role,
-      email: user.email
+      user: {
+        _id: user._id,
+        username: user.username,
+        email: user.email,
+        role: user.role
+      }
     });
+
   } catch (err) {
     console.error("Login Error:", err);
     res.status(500).json({ success: false, message: "Server error" });
   }
 });
 
-module.exports = router;
+export default router;

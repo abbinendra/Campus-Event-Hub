@@ -1,23 +1,43 @@
-import React from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { mockEvents } from "../assets/mock";
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import "./EventDetails.css";
 
 const EventDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
+  const fromStudent = location.state?.from === "student";
 
-  const event = mockEvents.find(e => e.id === id);
+  const [event, setEvent] = useState(null);
+  const [showDelete, setShowDelete] = useState(false);
+  const [showFeedback, setShowFeedback] = useState(false);
+  const [rating, setRating] = useState(0);
+  const [comment, setComment] = useState("");
+  const [regStatus, setRegStatus] = useState(null);
+  useEffect(() => {
+    fetch(`http://localhost:5000/events/${id}`)
+      .then(res => res.json())
+      .then(data => setEvent(data));
+
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (user) {
+      fetch(`http://localhost:5000/registrations`)
+        .then(res => res.json())
+        .then(all => {
+          const match = all.find(
+            r => r.userId?._id === user._id && r.eventId?._id === id
+          );
+          if (match) setRegStatus(match.status);
+        });
+    }
+  }, [id]);
 
   if (!event) {
     return (
       <div className="ed-page">
         <div className="ed-inner">
           <div className="ed-card ed-empty-card">
-            <h2>Event not found</h2>
-            <button className="ed-back-link" onClick={() => navigate(-1)}>
-              ← Back
-            </button>
+            <h2>Loading...</h2>
           </div>
         </div>
       </div>
@@ -46,13 +66,79 @@ const EventDetails = () => {
   const progress =
     (event.registered_count / event.max_participants) * 100;
 
+  const handleDelete = async () => {
+    await fetch(`http://localhost:5000/events/${id}`, {
+      method: "DELETE"
+    });
+    navigate("/all-events");
+  };
+
+  const handleRegister = async () => {
+    try {
+      const user = JSON.parse(localStorage.getItem("user"));
+      if (!user) {
+        alert("Please login first.");
+        return;
+      }
+
+      const res = await fetch("http://localhost:5000/registrations", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          eventId: event._id,
+          userId: user._id
+        })
+      });
+
+      if (res.status === 409) {
+        alert("You have already registered for this event.");
+        return;
+      }
+
+      if (!res.ok) {
+        alert("Registration failed.");
+        return;
+      }
+
+      alert("Registration successful!");
+      window.location.reload();
+    } catch (error) {
+      console.error(error);
+      alert("Error registering.");
+    }
+  };
+
   return (
     <div className="ed-page">
       <div className="ed-inner">
         {/* Top back link */}
-        <button className="ed-back-link" onClick={() => navigate(-1)}>
-          ← Back to All Events
-        </button>
+        <div className="ed-top-buttons">
+          <button className="ed-back-link" onClick={() => navigate(-1)}>
+            ← Back to All Events
+          </button>
+
+          {!fromStudent && (
+            <button className="ed-delete-btn" onClick={() => setShowDelete(true)}>
+              Delete Event
+            </button>
+          )}
+          {fromStudent && (
+            regStatus ? (
+              <span
+                className={`ed-status-btn status-${regStatus.toLowerCase()}`}
+              >
+                {regStatus}
+              </span>
+            ) : (
+              <button
+                className="ed-register-btn"
+                onClick={handleRegister}
+              >
+                Register Now
+              </button>
+            )
+          )}
+        </div>
 
         {/* Hero card */}
         <div className="ed-hero-card">
@@ -127,8 +213,82 @@ const EventDetails = () => {
                 />
               </div>
             </section>
+            {fromStudent && (
+              <button
+                className="ed-feedback-btn"
+                onClick={() => setShowFeedback(true)}
+              >
+                Leave Feedback
+              </button>
+            )}
           </aside>
         </div>
+        {showDelete && (
+          <div className="ed-modal-overlay">
+            <div className="ed-modal">
+              <h3>Delete This Event?</h3>
+              <p>This action cannot be undone.</p>
+
+              <div className="ed-modal-actions">
+                <button
+                  className="ed-cancel-btn"
+                  onClick={() => setShowDelete(false)}
+                >
+                  Cancel
+                </button>
+
+                <button
+                  className="ed-confirm-delete-btn"
+                  onClick={handleDelete}
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+        {showFeedback && (
+          <div className="ed-modal-overlay">
+            <div className="ed-modal">
+              <h3>Leave a Feedback</h3>
+
+              <div className="ed-stars-row">
+                {[1,2,3,4,5].map(num => (
+                  <span
+                    key={num}
+                    className={num <= rating ? "ed-star active" : "ed-star"}
+                    onClick={() => setRating(num)}
+                  >
+                    ★
+                  </span>
+                ))}
+              </div>
+
+              <textarea
+                className="ed-feedback-input"
+                placeholder="Write your comments..."
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
+              />
+
+              <div className="ed-modal-actions">
+                <button
+                  className="ed-cancel-btn"
+                  onClick={() => setShowFeedback(false)}
+                >
+                  Cancel
+                </button>
+
+                <button
+                  className="ed-confirm-delete-btn"
+                  disabled={rating === 0 || comment.trim() === ""}
+                >
+                  Submit
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

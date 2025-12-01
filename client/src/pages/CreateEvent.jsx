@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import "./CreateEvent.css";
 import { useNavigate } from "react-router-dom";
-import { mockEvents } from "../assets/mock";
+import calendarIcon from "../assets/calendr.svg";
 
 export default function CreateEvent() {
   const navigate = useNavigate();
+
+  const startInput = useRef(null);
+  const endInput = useRef(null);
 
   const [formData, setFormData] = useState({
     title: "",
@@ -28,35 +31,28 @@ export default function CreateEvent() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    const newEvent = {
-      id: String(mockEvents.length + 1),
-      title: formData.title,
-      description: formData.description,
-      category: formData.category,
-      max_participants: parseInt(formData.max_participants),
-      location: formData.location,
-      start_date: formData.start_date,
-      end_date: formData.end_date,
-      requirements: formData.requirements,
-      tags: formData.tags.split(",").map(t => t.trim()),
-      registered: 0,
-      image:
-        formData.image ||
-        "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&q=80"
-    };
-
-    mockEvents.push(newEvent);
-    navigate("/college-dashboard");
+    fetch("http://localhost:5000/events", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        title: formData.title,
+        description: formData.description,
+        category: formData.category,
+        max_participants: parseInt(formData.max_participants),
+        location: formData.location,
+        start_date: formData.start_date,
+        end_date: formData.end_date,
+        requirements: formData.requirements,
+        tags: formData.tags.split(",").map(t => t.trim()),
+        image:
+          formData.image ||
+          "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&q=80"
+      })
+    }).then(() => navigate("/college-dashboard"));
   };
 
   return (
     <div className="ce-page">
-      {/* top back button */}
-      <button className="ce-back" onClick={() => navigate("/college-dashboard")}>
-        Back to Dashboard
-      </button>
-
       <div className="ce-container">
         <h1 className="ce-title">Create New Event</h1>
         <p className="ce-subtitle">
@@ -116,6 +112,7 @@ export default function CreateEvent() {
                 name="max_participants"
                 placeholder="e.g., 200"
                 required
+                min="0"
                 value={formData.max_participants}
                 onChange={handleChange}
               />
@@ -136,26 +133,42 @@ export default function CreateEvent() {
           </div>
 
           {/* START + END DATE */}
-          <div className="ce-row">
+          <div className="ce-row2">
             <div className="ce-field">
               <label>Start Date & Time *</label>
-              <input
-                type="datetime-local"
-                name="start_date"
-                required
-                value={formData.start_date}
-                onChange={handleChange}
-              />
+              <div className="dt-wrapper">
+                <input
+                  type="datetime-local"
+                  name="start_date"
+                  required
+                  value={formData.start_date}
+                  onChange={handleChange}
+                  ref={startInput}
+                />
+                <img
+                  src={calendarIcon}
+                  className="dt-icon"
+                  onClick={() => startInput.current.showPicker()}
+                />
+              </div>
             </div>
             <div className="ce-field">
               <label>End Date & Time *</label>
-              <input
-                type="datetime-local"
-                name="end_date"
-                required
-                value={formData.end_date}
-                onChange={handleChange}
-              />
+              <div className="dt-wrapper">
+                <input
+                  type="datetime-local"
+                  name="end_date"
+                  required
+                  value={formData.end_date}
+                  onChange={handleChange}
+                  ref={endInput}
+                />
+                <img
+                  src={calendarIcon}
+                  className="dt-icon"
+                  onClick={() => endInput.current.showPicker()}
+                />
+              </div>
             </div>
           </div>
 
@@ -195,7 +208,6 @@ export default function CreateEvent() {
               value={formData.image}
               onChange={handleChange}
             />
-            <p className="ce-hint">Leave empty to use default image</p>
           </div>
 
           {/* BUTTONS */}

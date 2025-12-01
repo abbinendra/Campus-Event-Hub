@@ -20,14 +20,17 @@ export default function Login() {
       const res = await axios.post("http://localhost:5000/auth/login", { email, password })
       console.log("Server Response:", res.data)
 
-      if(res.data && res.data.success){
-        localStorage.setItem("token", res.data.token)
-        localStorage.setItem("role", res.data.role)
-        localStorage.setItem("userEmail", res.data.email)
+      if (res.data && res.data.success) {
+        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("role", res.data.role);
+
+        // Save full user object for registration & feedback
+        localStorage.setItem("user", JSON.stringify(res.data.user));
+
         if (res.data.role === "college-admin") {
-          navigate("/college-dashboard")
+          navigate("/college-dashboard");
         } else {
-          navigate("/student-dashboard")
+          navigate("/student-dashboard");
         }
       } else {
         alert(res.data.message || "Invalid email or password")
