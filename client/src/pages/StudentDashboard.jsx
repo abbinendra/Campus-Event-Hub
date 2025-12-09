@@ -2,6 +2,8 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import './StudentDashboard.css'
 import { useState, useEffect } from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBell } from '@fortawesome/free-solid-svg-icons';
 export function StudentDashboardNavbar() {
   const navigate = useNavigate();
 
@@ -26,6 +28,7 @@ export function StudentDashboardNavbar() {
 
       <div id="user-box">
         <span>{JSON.parse(localStorage.getItem("user"))?.email || "User"}</span>
+        <FontAwesomeIcon icon={faBell} className="notificationicon" />
         <button id="logout-btn" onClick={handleLogout}>Logout</button>
       </div>
     </div>

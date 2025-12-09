@@ -65,6 +65,16 @@
 
 }
 
+.notificationicon{
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.notificationicon:hover{
+    color: gold;
+}
+
 #logout-btn {
     padding: 8px 24px;
     border-radius: 16px;
@@ -686,3 +696,4 @@
 #event-item:hover #event-img {
     transform: scale(1.1);
 }
+
