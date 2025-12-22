@@ -8,6 +8,17 @@
     justify-content: center;
 }
 
+.svgres{
+    width:50%;
+}
+.ae-no-results{
+    height:fit-content;
+    width:100%;
+    display: flex;
+    align-items:center;
+    justify-content: center;
+}
+
 .ae-wrapper {
     width: 90%;
     max-width: 1300px;
@@ -19,7 +30,7 @@
 
 .ae-title {
     font-family: 'kanit';
-    font-size: 32px;
+    font-size: clamp(1.8rem, 3vw, 2.4rem);
     font-weight: 700;
     color: #1b1b1b;
     margin: 0;
@@ -28,7 +39,7 @@
 .ae-subtitle {
     color: #555;
     margin-top: 6px;
-    font-size: 15px;
+    font-size: clamp(0.95rem, 1.6vw, 1.1rem);
 }
 
 .ae-layout {
@@ -37,6 +48,84 @@
     gap: 30px;
     margin-top: 25px;
 }
+
+@media (max-width: 1100px) {
+    .ae-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .ae-filters {
+        order: 1;
+        width: 100%;
+    }
+
+    .ae-content {
+        order: 2;
+    }
+}
+
+/* Compact filter section at <=1100px */
+@media (max-width: 1100px) {
+    .ae-filter-card {
+        padding: 14px;
+    }
+
+    .ae-filters {
+        max-width: 100%;
+    }
+
+    .ae-filter-group {
+        margin-top: 12px;
+    }
+
+    .ae-filter-label {
+        margin-bottom: 4px;
+    }
+
+    .ae-select {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .ae-clear-btn {
+        margin-top: 14px;
+        padding: 8px 0;
+        font-size: 14px;
+    }
+
+    .ae-date-input {
+        height: 40px;
+    }
+
+    .ae-filter-group {
+        width: 100%;
+    }
+
+    /* Wrap only select-based filters into rows */
+    .ae-filter-group.select-row {
+        display: flex;
+        gap: 12px;
+    }
+
+    .ae-filter-group.select-row .ae-select {
+        flex: 1;
+    }
+}
+
+@media (max-width: 1100px) {
+    .ae-filter-row {
+        display: flex;
+        gap: 12px;
+        width: 100%;
+        margin-top: 12px;
+    }
+
+    .ae-filter-row .ae-filter-group {
+        flex: 1;
+        margin-top: 0;
+    }
+}
+
 
 /* FILTER PANEL */
 .ae-filters {
@@ -52,7 +141,7 @@
 
 .ae-filter-heading {
     margin: 0;
-    font-size: 20px;
+    font-size: clamp(1.05rem, 1.8vw, 1.25rem);
     font-weight: 600;
     color: #333;
 }
@@ -66,7 +155,7 @@
 .ae-filter-label {
     font-weight: 600;
     margin-bottom: 6px;
-    font-size: 14px;
+    font-size: clamp(0.85rem, 1.4vw, 0.95rem);
     color: #333;
 }
 
@@ -154,6 +243,12 @@
     gap: 26px;
 }
 
+@media (max-width: 900px) {
+    .ae-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
 .ae-card {
     background: white;
     border-radius: 12px;
@@ -204,7 +299,7 @@
 }
 
 .ae-event-title {
-    font-size: 18px;
+    font-size: clamp(1rem, 1.8vw, 1.15rem);
     font-family: 'kanit';
     margin: 6px 0 10px 0;
     font-weight: 600;
@@ -213,7 +308,7 @@
 
 .ae-event-desc {
     color: #555;
-    font-size: 14px;
+    font-size: clamp(0.85rem, 1.4vw, 0.95rem);
     min-height: 46px;
 }
 
@@ -223,7 +318,7 @@
     gap: 12px;
     align-items: center;
     margin-top: 12px;
-    font-size: 13px;
+    font-size: clamp(0.75rem, 1.3vw, 0.85rem);
     color: #333;
 }
 
@@ -246,7 +341,7 @@
     border: none;
     background: #6b4ce6;
     color: white;
-    font-size: 15px;
+    font-size: clamp(0.85rem, 1.5vw, 0.95rem);
     cursor: pointer;
     font-weight: 600;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
@@ -283,4 +378,136 @@
 
 .ae-card:hover .ae-card-img {
     transform: scale(1.1);
+}
+.css
+
+/* =========================
+   DARK MODE OVERRIDES
+   ========================= */
+
+/* Fix background bleed from body */
+html.dark-mode body {
+    background: #0f1115;
+}
+
+/* Ensure wrapper also stays dark */
+html.dark-mode .ae-wrapper {
+    background: #0f1115;
+}
+
+html.dark-mode .ae-page {
+    background: #0f1115 !important;
+    color: #ffffff;
+}
+
+html.dark-mode .ae-title {
+    color: #ffffff;
+}
+
+html.dark-mode .ae-subtitle {
+    color: #c7c9d1;
+}
+
+/* Filter panel */
+html.dark-mode .ae-filter-card {
+    background: #1a1d24;
+    box-shadow: 0 4px 16px rgba(255, 255, 255, 0.08);
+    border:0.1px solid white;
+}
+
+html.dark-mode .ae-filter-heading,
+html.dark-mode .ae-filter-label {
+    color: #ffffff;
+}
+
+html.dark-mode .ae-select {
+    background: #0f1115;
+    color: #ffffff;
+    border-color: #2a2f3a;
+}
+
+html.dark-mode .ae-clear-btn {
+    background: #1a1d24;
+    color: #ffffff;
+}
+
+html.dark-mode .ae-clear-btn:hover {
+    background: #2a2f3a;
+    box-shadow: none;
+}
+
+/* Main content panel */
+html.dark-mode .ae-content {
+    background: #1a1d24;
+    box-shadow: 0 4px 16px rgba(255, 255, 255, 0.08);
+    border:0.1px solid white;
+}
+
+/* Search */
+html.dark-mode .ae-search-input {
+    background: #0f1115;
+    color: #ffffff;
+    border-color: #2a2f3a;
+}
+
+/* Cards */
+html.dark-mode .ae-card {
+    background: #1a1d24;
+    box-shadow: 0 6px 18px rgba(255, 255, 255, 0.10);
+}
+
+html.dark-mode .ae-event-title {
+    color: #ffffff;
+}
+
+html.dark-mode .ae-event-desc {
+    color: #c7c9d1;
+}
+
+html.dark-mode .ae-meta-row {
+    color: #ffffff;
+}
+
+/* Category badge stays same (already dark) */
+
+/* Details button */
+html.dark-mode .ae-details-btn {
+    box-shadow: 0 4px 14px rgba(255, 255, 255, 0.15);
+}
+
+html.dark-mode .ae-details-btn:hover {
+    background: #593acb;
+}
+
+/* Status badge in dark mode */
+html.dark-mode .ae-status-badge {
+    background: #000000;
+    color: #ffffff;
+}
+
+@media (max-width: 480px) {
+    .ae-page {
+        padding: 20px 0;
+    }
+
+    .ae-wrapper {
+        width: 95%;
+    }
+
+    .ae-filter-card,
+    .ae-content {
+        padding: 14px;
+    }
+
+    .ae-card-body {
+        padding: 14px;
+    }
+
+    .ae-details-btn {
+        width: 100%;
+    }
+
+    .ae-search-input {
+        font-size: 0.9rem;
+    }
 }

@@ -1,64 +1,135 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import AdminChatbot from "../components/AdminChatbot";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMoon, faSun } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import './CollegeDashboard.css'
-import { useState, useEffect } from "react";
+import logo from "../assets/logo.png";
 
 export function CollegeDashboardNavbar() {
-  const [activeTab, setActiveTab] = React.useState("dashboard");
   const location = useLocation();
+  const isActive = (path) => location.pathname.startsWith(path);
 
-  React.useEffect(() => {
-    if (location.pathname.includes("/college-dashboard")) setActiveTab("dashboard");
-    else if (location.pathname.includes("/all-events")) setActiveTab("events");
-    else if (location.pathname.includes("/create-event")) setActiveTab("create");
-    else if (location.pathname.includes("/manage-participants")) setActiveTab("manage");
-    else if (location.pathname.includes("/feedback")) setActiveTab("feedback");
-  }, [location.pathname]);
+  const [isDarkMode, setIsDarkMode] = React.useState(
+    localStorage.getItem("theme") === "dark"
+  );
+  const [menuOpen, setMenuOpen] = useState(false);
+
   const navigate = useNavigate();
   const handleLogout = () => {
     localStorage.clear();
     navigate("/");
   };
+
+  const toggleTheme = () => {
+    const root = document.documentElement;
+    const isDark = root.classList.toggle("dark-mode");
+    setIsDarkMode(isDark);
+    localStorage.setItem("theme", isDark ? "dark" : "light");
+  };
+
+  React.useEffect(() => {
+    const savedTheme = localStorage.getItem("theme");
+
+    if (savedTheme === "dark") {
+      document.documentElement.classList.add("dark-mode");
+      setIsDarkMode(true);
+    } else {
+      document.documentElement.classList.remove("dark-mode");
+      setIsDarkMode(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [location.pathname]);
+
   return (
     <div className="top-navbar">
-      <div className="brand">CampusEventHub</div>
+      <div className="brandlogo">
+                <div className="logo-wrapper1">
+                  <img
+                    src={logo}
+                    alt="CampusEventHub Logo"
+                    className="dashlogo1"
+                  />
+                </div>
+                <div id="brand">CampusEventHub</div></div>
 
-      <div className="nav-links">
+      <div
+        className="hamburger-icon"
+        onClick={() => setMenuOpen(prev => !prev)}
+      >
+        <FontAwesomeIcon icon={menuOpen ? faTimes : faBars} />
+      </div>
+
+      <div className={`nav-links ${menuOpen ? "nav-links-mobile-open" : ""}`}>
         <a
-          className={activeTab === "dashboard" ? "nav-link active" : "nav-link"}
-          onClick={() => { setActiveTab("dashboard"); navigate("/college-dashboard"); }}
+          className={isActive("/college-dashboard") ? "nav-link active" : "nav-link"}
+          onClick={() => {
+            setMenuOpen(false);
+            navigate("/college-dashboard");
+          }}
         >
           Dashboard
         </a>
         <a
-          className={activeTab === "events" ? "nav-link active" : "nav-link"}
-          onClick={() => { setActiveTab("events"); navigate("/all-events"); }}
+          className={isActive("/all-events") ? "nav-link active" : "nav-link"}
+          onClick={() => {
+            setMenuOpen(false);
+            navigate("/all-events");
+          }}
         >
           All Events
         </a>
         <a
-          className={activeTab === "create" ? "nav-link active" : "nav-link"}
-          onClick={() => { setActiveTab("create"); navigate("/create-event"); }}
+          className={isActive("/create-event") ? "nav-link active" : "nav-link"}
+          onClick={() => {
+            setMenuOpen(false);
+            navigate("/create-event");
+          }}
         >
           Create Event
         </a>
         <a
-          className={activeTab === "manage" ? "nav-link active" : "nav-link"}
-          onClick={() => { setActiveTab("manage"); navigate("/manage-participants"); }}
+          className={isActive("/manage-participants") ? "nav-link active" : "nav-link"}
+          onClick={() => {
+            setMenuOpen(false);
+            navigate("/manage-participants");
+          }}
         >
           Manage Participants
         </a>
         <a
-          className={activeTab === "feedback" ? "nav-link active" : "nav-link"}
-          onClick={() => { setActiveTab("feedback"); navigate("/feedback"); }}
+          className={isActive("/feedback") ? "nav-link active" : "nav-link"}
+          onClick={() => {
+            setMenuOpen(false);
+            navigate("/feedback");
+          }}
         >
           Feedback
+        </a>
+        <a
+          className="mobile-logout"
+          onClick={() => {
+            setMenuOpen(false);
+            handleLogout();
+          }}
+        >
+          Logout
         </a>
       </div>
 
       <div className="user-box">
         <span>{JSON.parse(localStorage.getItem("user"))?.email || "User"}</span>
+        <FontAwesomeIcon
+          icon={isDarkMode ? faSun : faMoon}
+          className="theme-toggle-icon"
+          onClick={toggleTheme}
+          title={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
+        />
         <button className="logout-btn" onClick={handleLogout}>Logout</button>
       </div>
     </div>
@@ -66,18 +137,39 @@ export function CollegeDashboardNavbar() {
 }
 
 export default function CollegeDashboard() {
-  const [activeTab, setActiveTab] = React.useState("dashboard");
   const navigate = useNavigate();
   const [events, setEvents] = useState([]);
   const [registrations, setRegistrations] = useState([]);
-  useEffect(() => {
-    fetch("http://localhost:5000/events")
-      .then(res => res.json())
-      .then(data => setEvents(data));
+  const [apiError, setApiError] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-    fetch("http://localhost:5000/registrations")
-      .then(res => res.json())
-      .then(data => setRegistrations(data));
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        setLoading(true);
+
+        const eventsRes = await fetch("http://localhost:5000/events");
+        if (!eventsRes.ok) throw new Error("Events API down");
+        const eventsData = await eventsRes.json();
+        setEvents(eventsData);
+
+        const regRes = await fetch("http://localhost:5000/registrations");
+        if (!regRes.ok) throw new Error("Registrations API down");
+        const regData = await regRes.json();
+        setRegistrations(regData);
+
+        setApiError(false);
+      } catch (err) {
+        console.error("Backend not reachable", err);
+        setApiError(true);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadData();
   }, []);
   React.useEffect(() => {
     if (!localStorage.getItem("token")) {
@@ -88,8 +180,35 @@ export default function CollegeDashboard() {
     localStorage.clear();
     navigate("/");
   };
+
+  if (loading) {
+    return null;
+  }
+
+  if (apiError) {
+    navigate("/error", { replace: true });
+    return null;
+  }
+
+  const myEvents = user
+    ? events.filter(e => e.createdBy === user._id)
+    : [];
+
+  const myEventIds = myEvents.map(e => e._id);
+
+  const myRegistrations = registrations.filter(
+    r => r.eventId && myEventIds.includes(
+      typeof r.eventId === "string" ? r.eventId : r.eventId._id
+    )
+  );
+
+  const approvedCount = myRegistrations.filter(r => r.status === "Approved").length;
+  const pendingCount = myRegistrations.filter(r => r.status === "Pending").length;
+
+  const isDark = document.documentElement.classList.contains("dark-mode");
+
   return (
-    <div className="dashboard-wrapper">
+    <div className={`dashboard-wrapper ${isDark ? "dark" : ""}`}>
 
       {/* MAIN CONTENT */}
       <div className="page-container">
@@ -116,17 +235,17 @@ export default function CollegeDashboard() {
 
           <div className="stat-card">
             <p className="stat-label">Total Registrations</p>
-            <p className="stat-number">{registrations.length}</p>
+            <p className="stat-number">{myRegistrations.length}</p>
           </div>
 
           <div className="stat-card">
             <p className="stat-label">Approved</p>
-            <p className="stat-number">{registrations.filter(r => r.status === "Approved").length}</p>
+            <p className="stat-number">{approvedCount}</p>
           </div>
 
           <div className="stat-card">
             <p className="stat-label">Pending Approval</p>
-            <p className="stat-number">{registrations.filter(r => r.status === "Pending").length}</p>
+            <p className="stat-number">{pendingCount}</p>
           </div>
 
           <div className="stat-card">
@@ -136,7 +255,7 @@ export default function CollegeDashboard() {
 
           <div className="stat-card">
             <p className="stat-label">Total Events</p>
-            <p className="stat-number">{events.length}</p>
+            <p className="stat-number">{myEvents.length}</p>
           </div>
         </div>
         <div className="upcoming-events-title">Upcoming Events</div>
@@ -189,6 +308,14 @@ export default function CollegeDashboard() {
         </div>
 
       </div>
+    <AdminChatbot
+      events={{
+        total: myEvents.length,
+        approvedParticipants: approvedCount,
+        pendingParticipants: pendingCount,
+        rejectedParticipants: myRegistrations.filter(r => r.status === "Rejected").length
+      }}
+    />
     </div>
   );
 }

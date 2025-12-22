@@ -33,4 +33,27 @@ lerna-debug.log*
 *.ntvs*
 *.njsproj
 *.sln
+
+node_modules/
+.env
+.env.*
 *.sw?
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-error.log*
+
+# Builds
+dist/
+build/
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# OS / Editor junk
+.DS_Store
+.vscode/
+.idea/

@@ -5,6 +5,7 @@
   width:100%;
   display: flex;
   justify-content: center;
+  overflow-x: hidden;
 }
 .fa-inner{
     width: 70%;
@@ -23,6 +24,17 @@
   margin-bottom: 6px;
 }
 
+.int-buttons{
+  width:100%;
+  gap:0.4rem;
+  margin-bottom: 1.5rem;
+}
+.int-buttons>select{
+  width:80%;
+  background-color: white;
+  color: #111827a8;
+  border:0.5px solid rgba(0, 0, 0, 0.514);
+}
 .fa-subtitle {
   font-size: 15px;
   color: #64748b;
@@ -185,4 +197,211 @@
   margin-top: 8px;
   font-size: 14px;
   color: #374151;
+}
+
+.fa-load-btn{
+  font-family: 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif;
+  width:10%;
+  background: #f1f5f9;
+  color: #111827a8;
+  border:0.5px solid rgba(0, 0, 0, 0.514);
+}
+
+.fa-rating-value{
+  font-family: 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif;
+  font-size: 28px;
+}
+.fa-sentiment-value{
+  font-family: 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif;
+  font-size: 28px;
+}
+.fa-feedback-value{
+  font-family: 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif;
+  font-size: 28px;
+}
+
+.fa-no-recent{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fa-no-recent p{
+  display: none;
+}
+
+
+/* =========================
+   RESPONSIVE ADDITIONS
+   ========================= */
+
+@media (max-width: 1024px) {
+  .fa-inner {
+    width: 85%;
+    margin: 2rem auto;
+    padding: 2.5rem;
+  }
+
+  .fa-title {
+    font-size: 26px;
+  }
+
+  .fa-subtitle {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 768px) {
+  .int-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .int-buttons > select,
+  .fa-load-btn {
+    width: 100%;
+  }
+
+  .fa-stats-row {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .fa-middle-row {
+    flex-direction: column;
+    gap: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .fa-inner {
+    width: 94%;
+    padding: 1.5rem;
+    border-radius: 16px;
+  }
+
+  .fa-title {
+    font-size: 22px;
+  }
+
+  .fa-subtitle {
+    font-size: 13px;
+  }
+
+  .fa-card {
+    padding: 18px;
+  }
+
+  .fa-rating-value,
+  .fa-feedback-value,
+  .fa-sentiment-value {
+    font-size: 24px;
+  }
+
+  .fa-recent-comment {
+    font-size: 13px;
+  }
+}
+
+
+/* =========================
+   DARK MODE OVERRIDES
+   ========================= */
+
+/* Page background */
+html.dark-mode .fa-page {
+  background: #0f1115;
+  color: #ffffff;
+}
+
+/* Inner container */
+html.dark-mode .fa-inner {
+  background: #1a1d24;
+  box-shadow: 0 18px 45px rgba(255, 255, 255, 0.244);
+  border:1px solid white;
+}
+
+/* Titles */
+html.dark-mode .fa-title {
+  color: #ffffff;
+}
+
+html.dark-mode .fa-subtitle {
+  color: #c7c9d1;
+}
+
+/* Cards */
+html.dark-mode .fa-card {
+  background: #1a1d24;
+  border-color: #2a2f3a;
+  box-shadow: 0 8px 20px rgba(255, 255, 255, 0.10);
+}
+
+html.dark-mode .fa-card > h3 {
+  color: #ffffff;
+}
+
+/* Stats values */
+html.dark-mode .fa-rating-value,
+html.dark-mode .fa-feedback-value {
+  color: #ffffff;
+}
+
+html.dark-mode .fa-sentiment-value {
+  color: #22c55e;
+}
+
+html.dark-mode .fa-rating-based,
+html.dark-mode .fa-feedback-change,
+html.dark-mode .fa-sentiment-note {
+  color: #c7c9d1;
+}
+
+/* Buttons & select – swapped default/hover (Manage Participants style) */
+html.dark-mode .int-buttons > select,
+html.dark-mode .fa-load-btn {
+  background: #232734;
+  color: #ffffff;
+  border: 1px solid #2a2f3a;
+  box-shadow: none;
+}
+
+html.dark-mode .int-buttons > select:hover,
+html.dark-mode .fa-load-btn:hover {
+  background: #1a1d24;
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.12);
+}
+
+/* Distribution */
+html.dark-mode .fa-star-label,
+html.dark-mode .fa-bar-count {
+  color: #ffffff;
+}
+
+html.dark-mode .fa-bar-bg {
+  background: #2a2f3a;
+}
+
+html.dark-mode .fa-bar-fill {
+  background: #94a3b8;
+}
+
+/* Recent feedback */
+html.dark-mode .fa-recent-item {
+  background: #0f1115;
+  border-color: #2a2f3a;
+}
+
+html.dark-mode .fa-recent-event {
+  color: #ffffff;
+}
+
+html.dark-mode .fa-recent-user {
+  color: #c7c9d1;
+}
+
+html.dark-mode .fa-recent-comment {
+  color: #e5e7eb;
 }

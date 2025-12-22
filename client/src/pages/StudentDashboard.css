@@ -9,7 +9,7 @@
 #top-navbar {
     color: white;
     width: 100vw;
-    background: #4b4e53;
+    background:#03011E;
     padding: 1rem;
     display: flex;
     align-items: center;
@@ -17,14 +17,27 @@
     box-shadow: 2px 5px 10px 5px rgba(0, 0, 0, 0.4);
     font-family: 'kanit';
 }
+.brandlogo{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 25%;
+    gap:1rem;
+}
+.logo-wrapper1{
+    margin:0rem 0rem 0rem 4rem;
+}
 
+.dashlogo1{
+    width:3rem;
+    margin:none;
+}
 #brand {
     font-size: 25px;
     font-weight: bold;
     display: flex;
     align-items: center;
-    margin: 0rem 1rem 0rem 6rem;
-    width: 20%;
+    margin: 0rem 1rem 0rem 0rem;
 }
 
 #nav-links {
@@ -47,6 +60,7 @@
     border-radius: 2rem;
 }
 
+
 #nav-links a:hover {
     box-shadow: 6px 6px rgba(0, 0, 0, 0.4);
     border: none;
@@ -55,6 +69,29 @@
     cursor: pointer;
 }
 
+/* ACTIVE TAB – BASE (LIGHT MODE) */
+#nav-links a.active {
+    background-color: #ffffff;
+    color: #020617;
+    box-shadow: inset 0 0 0 2px #020617;
+    border-radius: 999px;
+}
+
+
+#nav-links a:active {
+    background-color: white;
+    color: #4b4e53;
+}
+
+#nav-links a.active:hover {
+    background-color: white;
+    color: #4b4e53;
+    box-shadow: 6px 6px rgba(0, 0, 0, 0.4);
+}
+.theme-toggle-icon {
+  cursor: pointer;
+  font-size: 18px;
+}
 
 #user-box {
     display: flex;
@@ -388,10 +425,9 @@
     }
 
     #brand {
-        margin: 0;
-        width: 100%;
-        justify-content: center;
-        font-size: clamp(0.7rem, 2.2vw, 1rem);
+        padding:0px;
+        width:fit-content;
+        font-size: clamp(0.2rem, 1.2vw, 1rem);
     }
 
     #nav-links {
@@ -559,18 +595,23 @@
     }
 }
 
-@media (max-width: 950px) {
+@media (max-width: 1100px) {
 
     /* Top Navbar shrinks */
     #top-navbar {
         padding: 0.5rem;
     }
 
+    .logout-btn{
+        font-size: clamp(0.6rem, 1vw, 1rem);
+    }
+
     /* Brand text becomes smaller */
     #brand {
-        font-size: clamp(0.8rem, 2vw, 1rem);
+        font-size: clamp(1rem, 1vw, 1rem);
         margin: 0;
-        width: 100%;
+        padding: 0%;
+        width: fit-content;
         justify-content: center;
     }
 
@@ -597,10 +638,6 @@
     #logout-btn {
         padding: 4px 12px;
         font-size: clamp(0.7rem, 1.5vw, 0.9rem);
-    }
-
-    #brand {
-        width: 30%;
     }
 
     #view-all-btn {
@@ -634,7 +671,7 @@
 
     #event-category-badge {
         padding: clamp(0.08rem, 0.8vw, 0.22rem) clamp(0.3rem, 1.4vw, 0.6rem);
-        font-size: clamp(0.35rem, 1.2vw, 0.65rem);
+        font-size: clamp(0.35rem, 1vw, 0.65rem);
         border-radius: 12px;
     }
 
@@ -663,6 +700,10 @@
     #event-item-info>span,
     #event-item-info>#event-location-text {
         margin: 0;
+    }
+
+    .nav-links a{
+        font-size: clamp(0.4rem, 2vw, 1rem);
     }
 
     #event-item-split {
@@ -697,3 +738,535 @@
     transform: scale(1.1);
 }
 
+/* ===========================
+   Notification Overlay Panel
+=========================== */
+
+.notification-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    z-index: 9999;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.notification-panel {
+    position: relative;
+    width: 50vw;
+    height: 90vh;
+    background: #ffffff;
+
+    border-radius: 14px;
+    padding: 24px;
+
+    box-shadow: -12px 0 30px rgba(0, 0, 0, 0.25);
+    overflow-y: auto;
+}
+
+/* Header inside notification panel */
+.notification-panel h3 {
+    margin: 0 0 22px 0;
+    font-size: 30px;
+    font-weight: 740;
+    color: #111;
+    font-family: 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif;
+}
+
+/* Empty state text */
+.notification-panel p {
+    font-size: 15px;
+    color: #666;
+}
+
+.notification-close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+
+  background: none;
+  border: none;
+  padding: 0;
+
+  font-size: 22px;
+  font-weight: 700;
+  color: #000;
+  cursor: pointer;
+  line-height: 1;
+}
+
+/* ===========================
+   Notification Items
+=========================== */
+
+.notification-item {
+  padding: 14px 16px;
+  margin-bottom: 12px;
+  border-radius: 10px;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Notification type label */
+.notification-item strong {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: #4b4e53;
+}
+
+/* Notification message */
+.notification-item p {
+  margin: 0;
+  font-size: 14px;
+  color: #111827;
+}
+
+/* Timestamp */
+.notification-item small {
+  font-size: 11px;
+  color: #6b7280;
+}
+
+/* Type-based styling */
+.notification-item.accepted {
+  border-left: 5px solid #22c55e;
+}
+
+.notification-item.rejected {
+  border-left: 5px solid #ef4444;
+}
+
+.notification-item.info {
+  border-left: 5px solid #3b82f6;
+}
+.notification-event{
+    color:black;
+    font-family: 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif;
+}
+
+/* ===========================
+   Notification Bell Red Dot
+=========================== */
+
+.notification-bell-wrapper {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.notification-dot {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    width: 8px;
+    height: 8px;
+    background-color: #f5a802;
+    border-radius: 50%;
+    border: 2px solid #4b4e53; /* matches navbar background */
+}
+
+@keyframes bell-bounce {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.4);
+        opacity: 0.85;
+    }
+}
+
+@keyframes dot-pulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.3);
+        opacity: 0.85;
+    }
+}
+
+/* Animate bell icon when unread exists */
+.notification-bell-wrapper:has(.notification-dot) .notificationicon {
+    animation: bell-bounce 1s ease-in-out infinite;
+}
+
+/* Animate red dot */
+.notification-dot {
+    animation: dot-pulse 1s ease-in-out infinite;
+}
+
+.notification-mark-all{
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    background-color: #6b4ce6;
+    color: white;
+    font-weight: 700;
+    font-family: 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif;
+}
+
+/* Dark mode – Mark all as read hover / active feedback */
+.dark-mode .notification-mark-all {
+    background: linear-gradient(135deg, #6b4ce6, #4f46e5);
+    transition: background 0.25s ease, box-shadow 0.25s ease;
+}
+
+.dark-mode .notification-mark-all:hover {
+    background: linear-gradient(135deg, #7c6df0, #6366f1);
+    box-shadow: 0 0 0 2px rgba(255,255,255,0.6);
+}
+
+.dark-mode .notification-mark-all:active {
+    background: linear-gradient(135deg, #5b3fd4, #4338ca);
+    box-shadow: inset 0 2px 6px rgba(0,0,0,0.4);
+}
+
+.dark-mode body,
+.dark-mode #dashboard-wrapper,
+.dark-mode #page-container {
+    background-color: #0f172a;
+    color: #e5e7eb;
+}
+
+/* NAVBAR */
+.dark-mode #top-navbar {
+    background: #03011E;
+}
+
+.dark-mode #brand {
+    color: #e5e7eb;
+}
+
+.dark-mode #nav-links {
+    background-color: #1e293b;
+}
+
+
+
+/* USER BOX */
+.dark-mode #user-box span,
+.dark-mode .notificationicon,
+.dark-mode .theme-toggle-icon {
+    color: #e5e7eb;
+}
+
+/* STAT CARDS (important: target children, not id reuse) */
+.dark-mode #stats-grid > div {
+    background-color: #020617;
+    border-color: #1e293b;
+}
+
+/* STAT TEXT */
+.dark-mode #stat-label {
+    color: #cbd5f5;
+}
+
+.dark-mode #stat-number {
+    color: #a5b4fc;
+}
+
+/* EVENT CARDS */
+.dark-mode #upcoming-events-container > div {
+    background-color: #020617;
+    border-color: #1e293b;
+}
+
+.dark-mode #event-item-title,
+.dark-mode #event-location-text,
+.dark-mode #event-item-meta {
+    color: #e5e7eb;
+}
+
+/* BUTTONS */
+.dark-mode #event-details-btn,
+.dark-mode #view-all-btn{
+    background-color: #6b4ce6;
+    color: #e5e7eb;
+}
+.dark-mode #logout-btn {
+    background-color: #334155;
+    color: #e5e7eb;
+}
+
+/* NOTIFICATIONS */
+.dark-mode .notification-panel {
+    background-color: #020617;
+    color: #e5e7eb;
+}
+
+.dark-mode .notification-item {
+    background-color: #020617;
+    border-color: #1e293b;
+}
+
+.dark-mode .notification-item p,
+.dark-mode .notification-item small,
+.dark-mode .notification-event {
+    color: #e5e7eb;
+}
+.dark-mode h1,
+.dark-mode h3,
+.dark-mode h4,
+.dark-mode h5,
+.dark-mode h6 {
+    color: #f8fafc !important;
+}
+
+/* Paragraphs & spans */
+.dark-mode p,
+.dark-mode span,
+.dark-mode small,
+.dark-mode strong,
+.dark-mode label {
+    color: #e5e7eb !important;
+}
+
+/* Page titles & subtitles */
+.dark-mode #page-title,
+.dark-mode #page-sub,
+.dark-mode #upcoming-events-title {
+    color: #f8fafc !important;
+}
+
+/* Stat cards text */
+.dark-mode #stat-label,
+.dark-mode #stat-number {
+    color: #e5e7eb !important;
+}
+
+/* Event cards text */
+.dark-mode #event-item-title,
+.dark-mode #event-item-meta,
+.dark-mode #event-location-text {
+    color: #e5e7eb !important;
+}
+
+/* Category & status badges */
+.dark-mode #event-category-badge,
+.dark-mode #event-status-user {
+    color: #020617 !important;
+    background: #e5e7eb !important;
+}
+
+/* Buttons text */
+.dark-mode #event-details-btn,
+.dark-mode #view-all-btn,
+.dark-mode #logout-btn {
+    color: #f8fafc !important;
+}
+
+.dark-mode .notification-close{
+    color: white;
+}
+
+/* Notification text */
+.dark-mode .notification-panel h3,
+.dark-mode .notification-panel p,
+.dark-mode .notification-item strong,
+.dark-mode .notification-item p,
+.dark-mode .notification-item small {
+    color: #e5e7eb !important;
+}
+
+/* Links */
+.dark-mode a {
+    color: #e5e7eb !important;
+}
+
+/* Light mode */
+#nav-links a.active {
+    background-color: #ffffff;
+    color: #020617;
+    border-radius: 999px;
+    box-shadow: inset 0 0 0 2px #020617;
+}
+
+/* Dark mode */
+.dark-mode #nav-links a.active,
+.dark-mode #nav-links a.active:hover {
+    background-color: #ffffff;
+    color: #000000 !important;
+    border-radius: 999px;
+    border: 2px solid #020617;
+    box-shadow: 0 4px 4px rgba(255, 255, 255, 0.6);
+}
+
+/* Dark mode – inactive hover only */
+.dark-mode #nav-links a:not(.active):hover {
+    background-color: #ffffff;
+    color: #000000 !important;
+}
+
+/* =========================
+   DARK MODE – WHITE SHADOWS
+========================= */
+
+/* Global white shadow override */
+.dark-mode * {
+    box-shadow: none;
+}
+
+/* Cards & containers */
+.dark-mode #stat-card,
+.dark-mode #event-item,
+.dark-mode .notification-panel,
+.dark-mode #logout-btn,
+.dark-mode #event-details-btn,
+.dark-mode #view-all-btn {
+    box-shadow: 2px 2px rgba(255, 255, 255, 0.722);
+}
+
+/* Active tab */
+.dark-mode #nav-links a.active {
+    box-shadow: 0 0 0 2px rgba(255,255,255,0.9),
+                0 6px 14px rgba(255,255,255,0.25);
+}
+
+/* Hovered cards */
+.dark-mode #stat-card:hover,
+.dark-mode #event-item:hover {
+    box-shadow:none;
+}
+
+.dark-mode #nav-links{
+    box-shadow:none;
+}
+
+.dark-mode #view-all-btn:hover,
+.dark-mode #logout-btn:hover{
+    box-shadow:none;
+}
+
+/* Dark mode: remove side shadow from notification panel */
+
+.dark-mode .notification-panel {
+    box-shadow: none;
+    border:0.1px solid white;
+}
+
+/* Restore notification type colors in dark mode */
+.dark-mode .notification-item.accepted {
+    border-left: 5px solid #22c55e;
+}
+
+.dark-mode .notification-item.rejected {
+    border-left: 5px solid #ef4444;
+}
+
+.dark-mode .notification-item.info {
+    border-left: 5px solid #3b82f6;
+}
+/* =========================================================
+   RESPONSIVE CONTENT ONLY (NAVBAR IS OFF-LIMITS)
+   ========================================================= */
+
+/* Page spacing */
+@media (max-width: 1200px) {
+  #page-container {
+    margin: 0 4rem 4rem 4rem;
+  }
+}
+
+@media (max-width: 900px) {
+  #page-container {
+    margin: 0 2.5rem 3.5rem 2.5rem;
+  }
+}
+
+@media (max-width: 600px) {
+  #page-container {
+    margin: 0 1.25rem 3rem 1.25rem;
+  }
+}
+
+/* Titles */
+@media (max-width: 900px) {
+  #page-title {
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+  }
+  #page-sub {
+    font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+  }
+}
+
+/* Stats grid */
+@media (max-width: 1200px) {
+  #stats-grid {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  #stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+}
+
+/* Upcoming events grid */
+@media (max-width: 1200px) {
+  #upcoming-events-container {
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  #upcoming-events-container {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
+/* Event cards */
+@media (max-width: 900px) {
+  #event-item {
+    height: clamp(240px, 42vw, 340px);
+  }
+}
+
+@media (max-width: 600px) {
+  #event-item {
+    height: clamp(260px, 60vw, 360px);
+  }
+
+  #event-item-info {
+    padding: 0.8rem 1.2rem 1.2rem 1.2rem;
+  }
+
+  #event-item-title {
+    font-size: clamp(0.95rem, 3vw, 1.2rem);
+  }
+
+  #event-item-meta {
+    font-size: clamp(0.75rem, 2.4vw, 0.95rem);
+  }
+
+  #event-actions-row {
+    gap: 0.6rem;
+  }
+
+  #event-details-btn,
+  #event-manage-btn {
+    font-size: 0.85rem;
+    padding: 6px 12px;
+  }
+}
+@media (max-width: 500px) {
+  #brand {
+    display: none;
+  }
+}
