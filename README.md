@@ -1,14 +1,8 @@
 # Campus Event Hub
-[![Release](https://img.shields.io/github/v/release/abbinendra/Campus-Event-Hub?label=release&style=flat)](https://github.com/abbinendra/Campus-Event-Hub/releases)
 [![Languages](https://img.shields.io/github/languages/top/abbinendra/Campus-Event-Hub?style=flat)](https://github.com/abbinendra/Campus-Event-Hub)
-[![Repo Size](https://img.shields.io/github/repo-size/abbinendra/Campus-Event-Hub?style=flat)](https://github.com/abbinendra/Campus-Event-Hub)
 
 Campus Event Hub is a modern, role-based web application built with React and custom CSS that empowers colleges to create and manage campus events while allowing students to browse, view details, and register through polished dashboards.
 
-Live demo: (add demo URL here)
-Demo GIF: (add GIF or screenshot here)
-
----
 
 ## Table of Contents
 - [Why Campus Event Hub?](#why-campus-event-hub)
@@ -20,9 +14,7 @@ Demo GIF: (add GIF or screenshot here)
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
   - [Install & Run (Frontend)](#install--run-frontend)
-  - [Backend (if applicable)](#backend-if-applicable)
 - [Environment Variables](#environment-variables)
-- [Deployment](#deployment)
 - [Testing](#testing)
 - [Contributing](#contributing)
 - [Roadmap](#roadmap)
@@ -56,8 +48,6 @@ It focuses on usability, accessibility, and an attractive responsive UI so both 
 - Build tools: npm / yarn
 - Backend: (optional) Node.js + Express, or any REST API — provide backend URL/env when available
 - Database: (optional) MongoDB / PostgreSQL (if backend is implemented)
-- Deployment: Vercel, Netlify, or any static hosting for the frontend; Heroku / Render / DigitalOcean for backend
-
 ---
 
 ## Architecture Overview
@@ -69,7 +59,7 @@ It focuses on usability, accessibility, and an attractive responsive UI so both 
 
 ---
 
-## Project Structure (suggested)
+## Project Structure
 This section assumes a standard React app layout. Adjust to match your repo.
 
 - public/
@@ -94,8 +84,6 @@ Add attractive screenshots or an animated GIF here to showcase:
 - Organizer dashboard (create/edit event)
 - Student dashboard (registrations)
 
-Example:
-![screenshot-placeholder](docs/screenshot-1.png)
 
 ---
 
@@ -135,22 +123,6 @@ The production-ready build will be in the `build/` directory (for Create React A
 
 ---
 
-## Backend (if applicable)
-If a backend is used, provide or connect to it via an environment variable (e.g., REACT_APP_API_URL). Typical API endpoints:
-- POST /api/auth/login
-- POST /api/auth/register
-- GET /api/events
-- GET /api/events/:id
-- POST /api/events (organizer)
-- PUT /api/events/:id (organizer)
-- POST /api/events/:id/register (student)
-- GET /api/users/:id/registrations
-
-If you don't have a backend yet, you can:
-- Use mock data (JSON) or a local mock server (json-server)
-- Use serverless functions or Firebase for quick prototyping
-
----
 
 ## Environment Variables
 Create a `.env` (example) at project root:
@@ -174,17 +146,6 @@ Note: Do not commit secrets to the repo. Use a secrets manager for production.
 
 ---
 
-## Deployment
-- Frontend: Deploy the `build/` folder to Vercel, Netlify, or GitHub Pages.
-- Backend: Deploy to Heroku, Render, or any cloud provider.
-- CI/CD: Add GitHub Actions for linting, tests, and deployments.
-
-Example: Deploy to Netlify
-1. Connect your repo on Netlify
-2. Set build command: `npm run build`
-3. Publish directory: `build`
-
----
 
 ## Contributing
 Contributions are welcome! To contribute:
@@ -214,8 +175,6 @@ Built with ❤️ using React and custom CSS.
 
 If you'd like help:
 - Open an issue on this repo
-- Or contact: your.email@example.com (replace with preferred contact)
+- Or contact: abhinendra0211@gmail.com
 
 ---
-
-*This README was added automatically by the GitHub Copilot Chat Assistant.*
