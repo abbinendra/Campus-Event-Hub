@@ -216,13 +216,15 @@ export default function AllEvents() {
                                 value={search}
                                 onChange={(e) => setSearch(e.target.value)}
                             />
-                            <button
-                              className="ae-my-btn"
-                              disabled={!currentUserId}
-                              onClick={() => setShowMyCreations((prev) => !prev)}
-                            >
-                              {showMyCreations ? "All Events" : "My Creations"}
-                            </button>
+                            {!isStudentPath && (
+                              <button
+                                className="ae-my-btn"
+                                disabled={!currentUserId}
+                                onClick={() => setShowMyCreations((prev) => !prev)}
+                              >
+                                {showMyCreations ? "All Events" : "My Creations"}
+                              </button>
+                            )}
                         </div>
 
                         {loading ? (
