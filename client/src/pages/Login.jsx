@@ -23,10 +23,6 @@ export default function Login() {
   }, []);
 
   useEffect(() => {
-  console.log(import.meta.env.VITE_API_URL);
-}, []);
-
-  useEffect(() => {
     const checkBackendHealth = async () => {
       try {
         const res = await fetch(`${import.meta.env.VITE_API_URL}/health`);
