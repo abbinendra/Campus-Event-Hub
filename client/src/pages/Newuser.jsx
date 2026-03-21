@@ -1,4 +1,4 @@
-import './newuser.css'
+import './Newuser.css'
 import { useState, useEffect } from "react"
 import axios from "axios"
 import Lottie from "lottie-react";
