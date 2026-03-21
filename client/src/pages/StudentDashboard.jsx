@@ -28,7 +28,7 @@ export function StudentDashboardNavbar() {
       const user = JSON.parse(localStorage.getItem("user"));
       if (!user?._id) return;
 
-      const res = await fetch(`http://localhost:5000/notifications/${user._id}`);
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/notifications/${user._id}`);
       const data = await res.json();
       setNotifications(data || []);
     } catch (err) {
@@ -43,7 +43,7 @@ export function StudentDashboardNavbar() {
       const user = JSON.parse(localStorage.getItem("user"));
       if (!user?._id) return;
 
-      await fetch(`http://localhost:5000/notifications/mark-all-read/${user._id}`, {
+      await fetch(`${import.meta.env.VITE_API_URL}/notifications/mark-all-read/${user._id}`, {
         method: "PATCH",
       });
 
@@ -221,7 +221,7 @@ export default function StudentDashboard() {
       try {
         setLoading(true);
 
-        const eventsRes = await fetch("http://localhost:5000/events");
+        const eventsRes = await fetch(`${import.meta.env.VITE_API_URL}/events`);
         if (!eventsRes.ok) throw new Error("Events API down");
         const eventsData = await eventsRes.json();
         setEvents(eventsData);
@@ -229,7 +229,7 @@ export default function StudentDashboard() {
         const user = JSON.parse(localStorage.getItem("user"));
         if (user?._id) {
           const regRes = await fetch(
-            `http://localhost:5000/registrations?userId=${user._id}`
+            `${import.meta.env.VITE_API_URL}/registrations?userId=${user._id}`
           );
           if (!regRes.ok) throw new Error("Registrations API down");
           const regData = await regRes.json();

@@ -25,7 +25,7 @@ useEffect(() => {
     try {
       setLoading(true);
 
-      const eventRes = await fetch(`http://localhost:5000/events/${id}`);
+      const eventRes = await fetch(`${import.meta.env.VITE_API_URL}/events/${id}`);
       if (!eventRes.ok) throw new Error("Event API down");
       const data = await eventRes.json();
       setEvent(data);
@@ -38,7 +38,7 @@ useEffect(() => {
       }
 
       if (user) {
-        const regRes = await fetch(`http://localhost:5000/registrations`);
+        const regRes = await fetch(`${import.meta.env.VITE_API_URL}/registrations`);
         if (!regRes.ok) throw new Error("Registrations API down");
         const all = await regRes.json();
         const match = all.find(
@@ -47,7 +47,7 @@ useEffect(() => {
         if (match) setRegStatus(match.status);
 
         const fbRes = await fetch(
-          `http://localhost:5000/api/feedback/event/${id}`
+          `${import.meta.env.VITE_API_URL}/api/feedback/event/${id}`
         );
         if (!fbRes.ok) throw new Error("Feedback API down");
         const list = await fbRes.json();
@@ -117,7 +117,7 @@ if (apiError) {
       return;
     }
 
-    const res = await fetch(`http://localhost:5000/events/${id}`, {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/events/${id}`, {
       method: "DELETE",
       headers: {
         "x-user-id": user._id
@@ -140,7 +140,7 @@ if (apiError) {
         return;
       }
 
-      const res = await fetch("http://localhost:5000/registrations", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/registrations`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -182,7 +182,7 @@ if (apiError) {
         comments: comment
       };
 
-      const res = await fetch("http://localhost:5000/api/feedback", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/feedback`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

@@ -22,7 +22,7 @@ export default function ManageParticipants() {
             try {
                 setLoading(true);
 
-                const regRes = await fetch("http://localhost:5000/registrations");
+                const regRes = await fetch(`${import.meta.env.VITE_API_URL}/registrations`);
                 if (!regRes.ok) throw new Error("Registrations API down");
                 const data = await regRes.json();
 
@@ -35,7 +35,7 @@ export default function ManageParticipants() {
                     setParticipants([]);
                 }
 
-                const eventsRes = await fetch("http://localhost:5000/events");
+                const eventsRes = await fetch(`${import.meta.env.VITE_API_URL}/events`);
                 if (!eventsRes.ok) throw new Error("Events API down");
                 const eventsData = await eventsRes.json();
 
@@ -62,7 +62,7 @@ export default function ManageParticipants() {
 
     const handleApprove = async (id) => {
         try {
-            await fetch(`http://localhost:5000/registrations/${id}`, {
+            await fetch(`${import.meta.env.VITE_API_URL}/registrations/${id}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -72,7 +72,7 @@ export default function ManageParticipants() {
             });
             // refresh list
             try {
-                const res = await fetch("http://localhost:5000/registrations");
+                const res = await fetch(`${import.meta.env.VITE_API_URL}/registrations`);
                 if (!res.ok) throw new Error("Registrations API down");
                 const data = await res.json();
                 if (user) {
@@ -94,7 +94,7 @@ export default function ManageParticipants() {
 
     const handleReject = async (id) => {
         try {
-            await fetch(`http://localhost:5000/registrations/${id}`, {
+            await fetch(`${import.meta.env.VITE_API_URL}/registrations/${id}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -104,7 +104,7 @@ export default function ManageParticipants() {
             });
             // refresh list
             try {
-                const res = await fetch("http://localhost:5000/registrations");
+                const res = await fetch(`${import.meta.env.VITE_API_URL}/registrations`);
                 if (!res.ok) throw new Error("Registrations API down");
                 const data = await res.json();
                 if (user) {

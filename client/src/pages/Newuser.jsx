@@ -20,7 +20,7 @@ export default function NewUser() {
   useEffect(() => {
     const checkBackendHealth = async () => {
       try {
-        const res = await fetch("http://localhost:5000/health");
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/health`);
         if (!res.ok) throw new Error("Backend not healthy");
       } catch (err) {
         console.error("Backend health check failed", err);
@@ -45,7 +45,7 @@ export default function NewUser() {
     }
 
     try {
-      const res = await axios.post("http://localhost:5000/auth/signup", {
+      const res = await axios.post("${import.meta.env.VITE_API_URL}/auth/signup", {
         username: name,
         email,
         password,

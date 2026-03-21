@@ -23,7 +23,7 @@ export default function FeedbackAnalysis() {
   const fetchEvents = async () => {
     try {
       // your project earlier used GET /events — if your API is /api/events change this URL
-      const res = await fetch("http://localhost:5000/events");
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/events`);
       if (!res.ok) throw new Error("Failed to load events");
       const data = await res.json();
       const allEvents = Array.isArray(data) ? data : data.data || [];
@@ -63,7 +63,7 @@ export default function FeedbackAnalysis() {
 
     try {
       // Summary — handles various shapes returned by backend
-      const s = await fetch(`http://localhost:5000/api/feedback/summary/${id}`);
+      const s = await fetch(`${import.meta.env.VITE_API_URL}/api/feedback/summary/${id}`);
       const sData = await s.json();
 
       const avg = Number(sData.averageRating ?? sData.avgRating ?? (sData[0] && (sData[0].avgRating || sData[0].averageRating)) ?? 0);
@@ -73,7 +73,7 @@ export default function FeedbackAnalysis() {
       setTotalFeedback(isNaN(total) ? 0 : total);
 
       // Full feedback list
-      const f = await fetch(`http://localhost:5000/api/feedback/event/${id}`);
+      const f = await fetch(`${import.meta.env.VITE_API_URL}/api/feedback/event/${id}`);
       const fData = await f.json();
       const list = Array.isArray(fData) ? fData : (fData.data || []);
       setRecentFeedback(list);

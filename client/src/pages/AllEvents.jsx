@@ -27,7 +27,7 @@ export default function AllEvents() {
         try {
           setLoading(true);
 
-          const res = await fetch("http://localhost:5000/events");
+          const res = await fetch(`${import.meta.env.VITE_API_URL}/events`);
           if (!res.ok) throw new Error("Events API down");
 
           const data = await res.json();

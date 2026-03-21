@@ -30,7 +30,7 @@ function StudentLayout() {
   const [events, setEvents] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/events")
+    fetch(`${import.meta.env.VITE_API_URL}/events`)
       .then(res => res.json())
       .then(data => setEvents(data))
       .catch(() => setEvents([]));
@@ -57,7 +57,7 @@ export default function App() {
     if (!user?._id) return;
 
     // fetch events created by this admin
-    fetch(`http://localhost:5000/events?createdBy=${user._id}`)
+    fetch(`${import.meta.env.VITE_API_URL}/events?createdBy=${user._id}`)
       .then(res => res.json())
       .then(data => {
         setMyEvents(Array.isArray(data) ? data : []);
@@ -65,7 +65,7 @@ export default function App() {
       .catch(() => setMyEvents([]));
 
     // fetch registrations ONLY for events created by this admin
-    fetch(`http://localhost:5000/registrations/admin/${user._id}`)
+    fetch(`${import.meta.env.VITE_API_URL}/registrations/admin/${user._id}`)
       .then(res => res.json())
       .then(data => {
         setMyRegistrations(Array.isArray(data) ? data : []);

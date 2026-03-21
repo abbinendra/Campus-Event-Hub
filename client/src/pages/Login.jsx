@@ -23,9 +23,13 @@ export default function Login() {
   }, []);
 
   useEffect(() => {
+  console.log(import.meta.env.VITE_API_URL);
+}, []);
+
+  useEffect(() => {
     const checkBackendHealth = async () => {
       try {
-        const res = await fetch("http://localhost:5000/health");
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/health`);
         if (!res.ok) throw new Error("Backend not healthy");
       } catch (err) {
         console.error("Backend health check failed", err);
@@ -44,7 +48,7 @@ export default function Login() {
     }
 
     try {
-      const res = await axios.post("http://localhost:5000/auth/login", { email, password })
+      const res = await axios.post(`${import.meta.env.VITE_API_URL}/auth/login`, { email, password });
       console.log("Server Response:", res.data)
 
       if (res.data && res.data.success) {
@@ -64,13 +68,24 @@ export default function Login() {
       }
     } catch (err) {
       console.error("Login Error:", err.response || err);
-      setApiError(true);
+      if (err.response?.status === 401) {
+        alert("Invalid email or password");
+      } else if (err.response?.status === 404) {
+        alert("Login route not found");
+      } else if (err.response?.status === 400) {
+        alert(err.response?.data?.message || "Bad request");
+      } else {
+        setApiError(true);
+      }
     }
   }
 
   if (apiError) {
-    navigate("/error", { replace: true });
-    return null;
+    return (
+      <div style={{ color: "red", textAlign: "center", marginTop: "20px" }}>
+        Something went wrong. Please try again.
+      </div>
+    );
   }
 
   return (

@@ -156,12 +156,12 @@ export default function CollegeDashboard() {
       try {
         setLoading(true);
 
-        const eventsRes = await fetch("http://localhost:5000/events");
+        const eventsRes = await fetch(`${import.meta.env.VITE_API_URL}/events`);
         if (!eventsRes.ok) throw new Error("Events API down");
         const eventsData = await eventsRes.json();
         setEvents(eventsData);
 
-        const regRes = await fetch("http://localhost:5000/registrations");
+        const regRes = await fetch(`${import.meta.env.VITE_API_URL}/registrations`);
         if (!regRes.ok) throw new Error("Registrations API down");
         const regData = await regRes.json();
         setRegistrations(regData);

@@ -35,7 +35,7 @@ export default function CreateEvent() {
   useEffect(() => {
     const checkBackendHealth = async () => {
       try {
-        const res = await fetch("http://localhost:5000/health");
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/health`);
         if (!res.ok) throw new Error("Backend not healthy");
       } catch (err) {
         console.error("Backend health check failed", err);
@@ -110,7 +110,7 @@ export default function CreateEvent() {
       }
 
       const user = JSON.parse(localStorage.getItem("user"));
-      const res = await fetch("http://localhost:5000/events", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/events`, {
         method: "POST",
         headers: {
           "x-user-id": user?._id
