@@ -77,16 +77,6 @@ This section assumes a standard React app layout. Adjust to match your repo.
 
 ---
 
-## Screenshots
-Add attractive screenshots or an animated GIF here to showcase:
-- Home / Event listing
-- Event detail page
-- Organizer dashboard (create/edit event)
-- Student dashboard (registrations)
-
-
----
-
 ## Getting Started
 
 ### Prerequisites
@@ -136,7 +126,6 @@ Note: Do not commit secrets to the repo. Use a secrets manager for production.
 ---
 
 ## Testing
-- Add unit tests with Jest + React Testing Library
 - Run tests:
   ```bash
   npm test
