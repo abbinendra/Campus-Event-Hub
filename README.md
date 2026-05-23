@@ -3,6 +3,8 @@
 
 Campus Event Hub is a modern, role-based web application built with React and custom CSS that empowers colleges to create and manage campus events while allowing students to browse, view details, and register through polished dashboards.
 
+NOTE - Disable all adblockers before opening the project URL, or you might face errors.
+
 
 ## Table of Contents
 - [Why Campus Event Hub?](#why-campus-event-hub)
